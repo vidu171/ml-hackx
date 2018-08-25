@@ -6,6 +6,7 @@ migrations/
 db.sqlite3
 .idea
 .xml
+data/
 
 # C extensions
 *.so
