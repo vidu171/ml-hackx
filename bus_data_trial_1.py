@@ -37,7 +37,9 @@ unique_places = set(places)
 print(unique_places)
 places = list(unique_places)
 
-data_new['comfortlevel'] = np.random.randint(1,5) 
+# Filling up two new columns
+data_new['comfort_level'] = np.random.randint(1, 5, data_new.shape[0])
+data_new['overall_experience'] = np.random.randint(1, 5, data_new.shape[0])
 
 # Dumping to a new Dataset CSV
 data_new.to_csv('data/data_new.csv')
