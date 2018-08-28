@@ -53,3 +53,9 @@ obj.close
 with open('data.txt', 'w') as outfile:
      json.dump(json_api_data, outfile, sort_keys = True, indent = 4,
                ensure_ascii = False)
+     
+     
+text_file = open("json_data.txt", "w")
+text_file.write("This is the String")
+
+np.savetxt('Output.txt', ["Purchase Amount: %s"], fmt='%s')
