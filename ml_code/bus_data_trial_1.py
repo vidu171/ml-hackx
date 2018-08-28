@@ -43,3 +43,13 @@ data_new['overall_experience'] = np.random.randint(1, 5, data_new.shape[0])
 
 # Dumping to a new Dataset CSV
 data_new.to_csv('data/data_new.csv')
+import csv,json
+json_api_data = json.dumps(list(csv.reader(open('csv_file.csv'))))
+
+obj = open('data.txt', 'wb')
+obj.write(json_api_data)
+obj.close
+
+with open('data.txt', 'w') as outfile:
+     json.dump(json_api_data, outfile, sort_keys = True, indent = 4,
+               ensure_ascii = False)
