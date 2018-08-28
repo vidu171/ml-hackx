@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -7,7 +8,8 @@ dataset = pd.read_csv('data/Bus Route Trip Data.csv')
 data_new = dataset.dropna()
 
 # Dropping Identifiers
-data_new.drop(['Operation date', 'VehicleNo'], axis=1, inplace=True)
+data_new.drop(['RouteName','VehicleNo','Operation date','Sch Trip Start time','Actual Trip Start time','Sch Trip End time','Actual Trip End time','ScheduledKm','ActualDistance'], axis=1, inplace=True)
+
 
 places = data_new['RouteName'].values.tolist()
 unique_places = set(places)
@@ -19,6 +21,12 @@ places = list(unique_places)
 # Loading E-Ticket Data
 e_ticket_dataset = pd.read_excel('data/Passenger e-ticket data/Report_01_JUL_2018.xlsx')
 e_ticket_dataset.isnull().sum()
+
+# taking 20000 only from the given dataset's
+e_ticket_dataset = e_ticket_dataset.iloc[:20000,:]
+data_new = data_new.iloc[:20000,:]
+data_new['Start'] = e_ticket_dataset['Origin Bus Stop Name']
+data_new['End'] = e_ticket_dataset['Destination Bus Stop Name']
 
 # There is no NaN in the dataset
 users = e_ticket_dataset['User Count'].values.tolist()
@@ -44,18 +52,10 @@ data_new['overall_experience'] = np.random.randint(1, 5, data_new.shape[0])
 # Dumping to a new Dataset CSV
 data_new.to_csv('data/data_new.csv')
 import csv,json
-json_api_data = json.dumps(list(csv.reader(open('csv_file.csv'))))
+json_api_data = json.dumps(list(csv.reader(open('data/data_new.csv'))))
 
-obj = open('data.txt', 'wb')
-obj.write(json_api_data)
-obj.close
+np.savetxt("JSON_FINAL_DATA.txt", json_api_data, fmt="%s")
 
-with open('data.txt', 'w') as outfile:
-     json.dump(json_api_data, outfile, sort_keys = True, indent = 4,
-               ensure_ascii = False)
-     
-     
-text_file = open("json_data.txt", "w")
-text_file.write("This is the String")
-
-np.savetxt('Output.txt', ["Purchase Amount: %s"], fmt='%s')
+text_file = open("JSON_DATA_FINAL.txt", "w")
+text_file.write(json_api_data)
+text_file.close()
